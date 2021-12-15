@@ -58,8 +58,7 @@ export default {
 
     methods: {
         pageLoaded(page) {
-            // We are ready once the last page is rendered
-            this.ready = page === this.pages;
+            pdfViewerEvent.documentRendered(page === this.pages);
         },
 
         scrollTo(position) {
@@ -84,7 +83,7 @@ export default {
             }
 
             container.onscroll = (event) => {
-                if (!this.ready) {
+                if (!pdfViewerEvent.isDocumentRendered) {
                     return event.preventDefault();
                 }
 

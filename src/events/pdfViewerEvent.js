@@ -5,6 +5,7 @@ export default new Vue({
         return {
             page: 1,
             lazyPage: 1,
+            isDocumentRendered: false,
         };
     },
 
@@ -20,6 +21,12 @@ export default new Vue({
             this.lazyPage = page;
 
             this.$emit('lazy-page-changed', page);
+        },
+
+        documentRendered() {
+            this.isDocumentRendered = true;
+
+            this.$emit('document-rendered');
         },
     },
 });

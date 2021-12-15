@@ -4,7 +4,7 @@
 
         <div class="mt-1.5 h-full w-full flex sm:space-x-4">
             <DocumentPreviews v-bind="{ src, pages }"></DocumentPreviews>
-            <Documents v-bind="{ src, pages }"></Documents>
+            <Document v-bind="{ src, pages }"></Document>
         </div>
     </div>
 </template>
@@ -12,12 +12,12 @@
 <script>
 import Pdf from 'vue-pdf';
 import DocumentPreviews from './DocumentPreviews.vue';
-import Documents from './Documents.vue';
+import Document from './Document.vue';
 import Toolbar from './Toolbar.vue';
 
 export default {
     components: {
-        Documents,
+        Document,
         DocumentPreviews,
         Toolbar,
     },
