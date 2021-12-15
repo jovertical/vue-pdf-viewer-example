@@ -4,8 +4,8 @@
             <Toolbar :page-count="pages"></Toolbar>
 
             <div class="mt-1.5 h-full w-full flex sm:space-x-4">
-                <DocumentPreviews v-bind="{ src, pages }"></DocumentPreviews>
-                <Document v-bind="{ src, pages }"></Document>
+                <DocumentPreviews v-bind="{ pdf, pages }"></DocumentPreviews>
+                <Document v-bind="{ pdf, pages }"></Document>
             </div>
         </template>
 
@@ -49,9 +49,16 @@ export default {
         Toolbar,
     },
 
+    props: {
+        src: {
+            type: String,
+            required: true,
+        },
+    },
+
     data() {
         return {
-            src: 'https://cdn.filestackcontent.com/wcrjf9qPTCKXV3hMXDwK',
+            pdf: null,
             pages: 0,
             ready: false,
             error: false,
@@ -65,13 +72,11 @@ export default {
 
     methods: {
         loadPdf() {
-            this.src = Pdf.createLoadingTask(
-                'https://cdn.filestackcontent.com/wcrjf9qPTCKXV3hMXDwK',
-            );
+            this.pdf = Pdf.createLoadingTask(this.src);
         },
 
         loadPages() {
-            this.src.promise
+            this.pdf.promise
                 .then((pdf) => {
                     this.pages = pdf.numPages;
                     this.ready = true;

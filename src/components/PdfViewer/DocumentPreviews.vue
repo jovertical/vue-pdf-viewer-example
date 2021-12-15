@@ -1,6 +1,10 @@
 <template>
-    <div class="w-72 hidden sm:flex overflow-x-hidden overflow-y-auto">
-        <div class="p-3 flex flex-col space-y-3">
+    <div class="w-72 p-3 hidden sm:flex overflow-x-hidden overflow-y-auto">
+        <div v-if="!pdf" class="flex items-center justify-center w-full">
+            <p class="text-white text-sm">Empty preview</p>
+        </div>
+
+        <div v-else class="flex flex-col space-y-3">
             <!-- prettier-ignore -->
             <button
                 v-for="page in pages"
@@ -12,7 +16,7 @@
                 }"
                 @click="pageChanged(page)"
             >
-                <pdf class="inline-block" :src="src" :page="page"></pdf>
+                <pdf class="inline-block" :src="pdf" :page="page"></pdf>
 
                 <div
                     class="hidden group-hover:flex bg-gray-900 group-hover:opacity-50 absolute inset-0 w-full h-full items-center justify-center"
@@ -41,8 +45,8 @@ export default {
             default: () => [],
         },
 
-        src: {
-            type: [String, Object],
+        pdf: {
+            type: Object,
             required: true,
         },
     },

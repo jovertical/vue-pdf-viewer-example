@@ -6,7 +6,7 @@
                 :key="page"
                 ref="page"
                 class="inline-block"
-                :src="src"
+                :src="pdf"
                 :page="page"
                 @page-loaded="pageLoaded"
             ></pdf>
@@ -25,20 +25,14 @@ export default {
             required: true,
         },
 
-        src: {
-            type: [String, Object],
+        pdf: {
+            type: Object,
             required: true,
         },
     },
 
     components: {
         Pdf,
-    },
-
-    data() {
-        return {
-            ready: false,
-        };
     },
 
     computed: {
@@ -58,6 +52,10 @@ export default {
     },
 
     methods: {
+        foo(bar) {
+            console.log(bar);
+        },
+
         pageLoaded(page) {
             pdfViewerEvent.documentRendered(page === this.pages);
         },
