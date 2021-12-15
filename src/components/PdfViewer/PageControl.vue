@@ -3,7 +3,8 @@
         <input
             v-model="page"
             type="text"
-            class="hidden sm:block h-6 w-10 text-sm px-1.5 rounded-sm bg-gray-700 text-white border-gray-500 focus:border-gray-500 focus:ring focus:ring-gray-500 focus:ring-opacity-50"
+            class="hidden sm:block h-6 w-10 text-sm px-1.5 rounded-sm bg-gray-700 text-white border-gray-500 focus:border-gray-500 focus:ring focus:ring-gray-500 focus:ring-opacity-50 disabled:cursor-not-allowed"
+            :disabled="disabled"
         />
 
         <p class="ml-2 text-white text-sm">
@@ -21,6 +22,11 @@ export default {
         count: {
             type: Number,
             default: 1,
+        },
+
+        disabled: {
+            type: Boolean,
+            default: false,
         },
     },
 

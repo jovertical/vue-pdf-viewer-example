@@ -49,6 +49,7 @@ export default {
 
     mounted() {
         this.registerPageChangedListener();
+        this.registerPrintedEventListener();
         this.trackCurrentPage(this.$refs.container);
     },
 
@@ -74,6 +75,14 @@ export default {
         registerPageChangedListener() {
             pdfViewerEvent.$on('page-changed', (page) => {
                 this.focusPage(page);
+            });
+        },
+
+        registerPrintedEventListener() {
+            pdfViewerEvent.$on('printed', () => {
+                // The first page is all that matters here since the
+                // pdf wrapper instance is bound to each page.
+                this.$refs['page']?.[0]?.print?.();
             });
         },
 

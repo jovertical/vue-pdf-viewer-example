@@ -28,5 +28,9 @@ export default new Vue({
 
             this.$emit('document-rendered');
         },
+
+        print() {
+            this.$emit('printed');
+        },
     },
 });

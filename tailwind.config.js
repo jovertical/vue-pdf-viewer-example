@@ -8,7 +8,9 @@ module.exports = {
         extend: {
             display: ['hover', 'group-hover'],
             borderWidth: ['hover', 'group-hover'],
+            textColor: ['disabled'],
             opacity: ['hover', 'group-hover'],
+            cursor: ['disabled'],
         },
     },
     plugins: [require('@tailwindcss/forms')],
