@@ -8,6 +8,7 @@
                 class="inline-block"
                 :src="src"
                 :page="page"
+                @page-loaded="pageLoaded"
             ></pdf>
         </div>
     </div>
@@ -20,8 +21,8 @@ import pdfViewerEvent from '../../events/pdfViewerEvent';
 export default {
     props: {
         pages: {
-            pages: Array,
-            default: () => [],
+            pages: Number,
+            required: true,
         },
 
         src: {
@@ -34,23 +35,64 @@ export default {
         Pdf,
     },
 
+    data() {
+        return {
+            ready: false,
+        };
+    },
+
+    computed: {
+        pageHeight() {
+            return this.$refs.page[0]?.$el?.clientHeight ?? 1;
+        },
+    },
+
     mounted() {
-        pdfViewerEvent.$on('pageChanged', (page) => {
-            this.focusPage(page);
-        });
+        this.registerPageChangedListener();
+        this.trackCurrentPage(this.$refs.container);
+    },
+
+    beforeDestroy() {
+        // Delete container.onscroll listener...
     },
 
     methods: {
+        pageLoaded(page) {
+            // We are ready once the last page is rendered
+            this.ready = page === this.pages;
+        },
+
+        scrollTo(position) {
+            this.$refs.container?.scrollTo?.(0, position);
+        },
+
         focusPage(page) {
-            if (!this.$refs['container']) {
+            let pageHeight = page === 1 ? 0 : this.pageHeight + 12;
+
+            this.scrollTo((page - 1) * pageHeight);
+        },
+
+        registerPageChangedListener() {
+            pdfViewerEvent.$on('page-changed', (page) => {
+                this.focusPage(page);
+            });
+        },
+
+        trackCurrentPage(container) {
+            if (!container) {
                 return;
             }
 
-            // prettier-ignore
-            this.$refs['container'].scrollTo(
-                0,
-                (page === 1 ? 1 : page - 1) * (this.$refs.page[0]?.$el?.clientHeight + 12),
-            );
+            container.onscroll = (event) => {
+                if (!this.ready) {
+                    return event.preventDefault();
+                }
+
+                // prettier-ignore
+                let page = Math.floor(event.target.scrollTop / (this.pageHeight + 12)) + 1;
+
+                pdfViewerEvent.lazyPageChanged(page);
+            };
         },
     },
 };

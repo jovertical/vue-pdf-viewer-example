@@ -26,25 +26,31 @@ export default {
 
     data() {
         return {
-            pageFacade: 1,
+            page: 1,
         };
     },
 
     watch: {
         page(page) {
-            pdfViewerEvent.$emit('pageChanged', parseInt(page || 1));
+            if (page !== pdfViewerEvent.lazyPage) {
+                pdfViewerEvent.pageChanged(page || 1);
+            }
         },
     },
 
-    computed: {
-        page: {
-            get() {
-                return this.pageFacade;
-            },
+    created() {
+        this.page = pdfViewerEvent.page;
+    },
 
-            set(page) {
-                this.pageFacade = page > this.count ? 1 : page;
-            },
+    mounted() {
+        this.registerLazyPageChangedListener();
+    },
+
+    methods: {
+        registerLazyPageChangedListener() {
+            pdfViewerEvent.$on('lazy-page-changed', (page) => {
+                this.page = page;
+            });
         },
     },
 };
