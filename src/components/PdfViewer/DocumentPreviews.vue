@@ -1,9 +1,10 @@
 <template>
-    <div class="w-72 hidden sm:flex overflow-y-auto">
+    <div class="w-72 hidden sm:flex overflow-x-hidden overflow-y-auto">
         <div class="p-3 flex flex-col space-y-3">
             <pdf
                 v-for="page in pages"
                 :key="page"
+                ref="page"
                 class="inline-block"
                 :src="src"
                 :page="page"

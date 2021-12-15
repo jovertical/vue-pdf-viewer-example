@@ -1,6 +1,6 @@
 <template>
     <div class="overflow-hidden w-full h-full bg-gray-800 rounded-md">
-        <Toolbar></Toolbar>
+        <Toolbar :page-count="pages"></Toolbar>
 
         <div class="mt-1.5 h-full w-full flex sm:space-x-4">
             <DocumentPreviews v-bind="{ src, pages }"></DocumentPreviews>

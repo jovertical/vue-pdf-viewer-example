@@ -1,8 +1,8 @@
 <template>
     <div
-        class="flex justify-between bg-gray-700 border-b border-gray-600 p-2 sm:px-4 sm:py-3 rounded-t-md"
+        class="flex justify-between bg-gray-700 border border-gray-600 p-2 sm:px-4 sm:py-3 rounded-t-md"
     >
-        <p class="text-white text-sm">1 / 96</p>
+        <PageControl :count="pageCount"></PageControl>
 
         <div class="hidden sm:flex space-x-3">
             <button type="button" class="focus:outline-none">
@@ -28,12 +28,21 @@
 
 <script>
 import { ZoomInIcon, ZoomOutIcon, PrinterIcon } from '@vue-hero-icons/outline';
+import PageControl from './PageControl.vue';
 
 export default {
     components: {
+        PageControl,
         ZoomInIcon,
         ZoomOutIcon,
         PrinterIcon,
+    },
+
+    props: {
+        pageCount: {
+            type: Number,
+            default: 1,
+        },
     },
 };
 </script>
